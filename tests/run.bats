@@ -27,7 +27,7 @@ load '/usr/local/lib/bats/load.bash'
   export BUILDKITE_PLUGIN_DOCKER_LOGIN_1_PASSWORD="llamas"
 
   stub docker \
-    "login --username blah --password llamas --server my.registry.blah : echo logging in to my.registry.blah" \
+    "login --username blah --password llamas my.registry.blah : echo logging in to my.registry.blah" \
     "login --username blah --password llamas : echo logging in to docker hub"
 
   run $PWD/hooks/pre-command

@@ -24,7 +24,7 @@ for prefix in "${prefixes[@]}" ; do
   )
 
   if [[ -n "${!server_var:-}" ]] ; then
-    login_args+=("--server" "${!server_var:-}")
+    login_args+=("${!server_var:-}")
   fi
 
   echo "~~~ :docker: Logging into docker registry ${!server_var:-hub.docker.com}"
