@@ -13,6 +13,7 @@ The examples below show how to provide passwords for single and multiple registr
 ## Example: Login to docker hub (or a single server)
 
 ```bash
+# environment or pre-command hook
 export BUILDKITE_PLUGIN_DOCKER_LOGIN_PASSWORD=mysecretpassword
 ```
 
@@ -27,6 +28,7 @@ steps:
 ## Example: Log in to multiple registries
 
 ```bash
+# environment or pre-command hook
 export BUILDKITE_PLUGIN_DOCKER_LOGIN_PASSWORD_0=mysecretpassword1
 export BUILDKITE_PLUGIN_DOCKER_LOGIN_PASSWORD_1=mysecretpassword2
 ```
