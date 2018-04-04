@@ -1,8 +1,6 @@
 # Docker Login Buildkite Plugin
 
-__This is designed to run with Buildkite Agent v3.x beta. Plugins are not yet supported in Buildkite Agent v2.x.__
-
-Login to docker registries.
+A [Buildkite plugin](https://buildkite.com/docs/agent/v3/plugins) to login to docker registries.
 
 ## Securing your password
 
