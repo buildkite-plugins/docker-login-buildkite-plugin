@@ -27,8 +27,8 @@ steps:
 
 ```bash
 # environment or pre-command hook
-export BUILDKITE_PLUGIN_DOCKER_LOGIN_PASSWORD_0=mysecretpassword1
-export BUILDKITE_PLUGIN_DOCKER_LOGIN_PASSWORD_1=mysecretpassword2
+export BUILDKITE_PLUGIN_DOCKER_LOGIN_0_PASSWORD=mysecretpassword1
+export BUILDKITE_PLUGIN_DOCKER_LOGIN_1_PASSWORD=mysecretpassword2
 ```
 
 ```yml
