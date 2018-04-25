@@ -48,10 +48,9 @@ steps:
 
 The username to send to the docker registry.
 
-### `server`
+### `server` (optional)
 
 The server to log in to, if blank or ommitted logs into Docker Hub.
-
 
 ## License
 

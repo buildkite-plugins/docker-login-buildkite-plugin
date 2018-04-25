@@ -1,7 +1,0 @@
-{
-  "name": "Docker login",
-  "description": "Login to docker registries in your build steps.",
-  "author": "@lox",
-  "public": true,
-  "requirements": ["bash", "docker"]
-}
