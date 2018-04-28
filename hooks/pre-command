@@ -20,7 +20,7 @@ for prefix in "${prefixes[@]}" ; do
 
   login_args=(
     "--username" "${!username_var:-}"
-    "--password" "${!password_var:-}"
+    "--password-stdin"
   )
 
   if [[ -n "${!server_var:-}" ]] ; then
@@ -28,5 +28,5 @@ for prefix in "${prefixes[@]}" ; do
   fi
 
   echo "~~~ :docker: Logging into docker registry ${!server_var:-hub.docker.com}"
-  docker login "${login_args[@]}"
+  echo "${!password_var:-}" | docker login "${login_args[@]}"
 done
