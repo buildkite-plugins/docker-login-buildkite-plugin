@@ -19,7 +19,7 @@ export BUILDKITE_PLUGIN_DOCKER_LOGIN_PASSWORD=mysecretpassword
 steps:
   - command: ./run_build.sh
     plugins:
-      docker-login#v1.0.0:
+      docker-login#v1.1.0:
         username: myuser
 ```
 
@@ -35,7 +35,7 @@ export BUILDKITE_PLUGIN_DOCKER_LOGIN_1_PASSWORD=mysecretpassword2
 steps:
   - command: ./run_build.sh
     plugins:
-      docker-login#v1.0.0:
+      docker-login#v1.1.0:
         - server: my.private.registry
           username: myuser
         - server: another.private.registry
