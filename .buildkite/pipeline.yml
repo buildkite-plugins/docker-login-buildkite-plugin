@@ -1,7 +1,7 @@
 steps:
   - label: run bats tests
     plugins:
-      docker-compose#v1.2.1:
+      docker-compose#v2.1.0:
         run: tests
 
   - label: lint
