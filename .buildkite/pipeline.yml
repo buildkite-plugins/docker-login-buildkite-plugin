@@ -12,4 +12,4 @@ steps:
   - label: ":sparkles: Lint"
     plugins:
       plugin-linter#v2.0.0:
-        name: docker-login
+        id: docker-login
