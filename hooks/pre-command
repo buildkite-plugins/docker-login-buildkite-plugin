@@ -10,13 +10,23 @@ function plugin_var_prefixes() {
   done < <(env) | sort | uniq
 }
 
-mapfile -t prefixes < <(plugin_var_prefixes)
-
 # enumerate the list of servers to login
-for prefix in "${prefixes[@]}" ; do
+plugin_var_prefixes | while IFS='=' read -r prefix _ ; do
   username_var="${prefix}_USERNAME"
-  password_var="${prefix}_PASSWORD"
+  password_legacy="${prefix}_PASSWORD"
+  password_env_var="${prefix}_PASSWORD_ENV"
+  password_var="${!password_env_var:-DOCKER_LOGIN_PASSWORD}"
   server_var="${prefix}_SERVER"
+
+  if [[ -n "${!password_legacy:-}" ]] ; then
+    echo "+++ :warn: The password property of the docker-login plugin has been deprecated, use password-env instead"
+    password_var="$password_legacy"
+  fi
+
+  if [[ -z "${!password_var:-}" ]] ; then
+    echo "+++ 🚨 No docker-login password found in \$${password_var}"
+    exit 1
+  fi
 
   login_args=(
     "--username" "${!username_var:-}"
