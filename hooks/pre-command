@@ -38,5 +38,5 @@ plugin_var_prefixes | while IFS='=' read -r prefix _ ; do
   fi
 
   echo "~~~ :docker: Logging into docker registry ${!server_var:-hub.docker.com}"
-  echo "${!password_var:-}" | docker login "${login_args[@]}"
+  docker login "${login_args[@]}" <<< "${!password_var:-}"
 done
