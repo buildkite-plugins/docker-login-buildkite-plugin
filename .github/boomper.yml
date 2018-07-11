@@ -1,4 +1,4 @@
 # Config for https://github.com/apps/boomper-bot
 updates:
 - path: README.md
-  pattern: 'docker-login#(.*):'
+  pattern: "docker-login#(.*):"
