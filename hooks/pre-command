@@ -11,7 +11,7 @@ function plugin_var_prefixes() {
 }
 
 # enumerate the list of servers to login
-plugin_var_prefixes | while IFS='=' read -r prefix _ ; do
+plugin_var_prefixes | tr -d '\r' | while IFS='=' read -r prefix _ ; do
   username_var="${prefix}_USERNAME"
   password_legacy="${prefix}_PASSWORD"
   password_env_var="${prefix}_PASSWORD_ENV"
