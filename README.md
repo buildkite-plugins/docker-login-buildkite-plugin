@@ -30,7 +30,7 @@ export DOCKER_LOGIN_PASSWORD=mysecretpassword
 steps:
   - command: ./run_build.sh
     plugins:
-      docker-login#v2.0.0:
+      docker-login#v2.0.1:
         username: myuser
         password-env: DOCKER_LOGIN_PASSWORD
 ```
@@ -47,7 +47,7 @@ export DOCKER_LOGIN_ANOTHER_REGISTRY=mysecretpassword2
 steps:
   - command: ./run_build.sh
     plugins:
-      docker-login#v2.0.0:
+      docker-login#v2.0.1:
         - server: my.private.registry
           username: myuser
           password-env: DOCKER_LOGIN_MY_PRIVATE_REGISTRY
