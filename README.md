@@ -12,17 +12,6 @@ The examples below show how to provide passwords for single and multiple registr
 
 ```bash
 # environment or pre-command hook
-export BUILDKITE_PLUGIN_DOCKER_LOGIN_PASSWORD=mysecretpassword
-```
-
-To avoid leaking your docker password to buildkite.com or anyone with access to build logs, you need to avoid including it in pipeline.yml. This means it needs to be set specifically with an environment variable in an [Agent hook](https://buildkite.com/docs/agent/hooks), for instance the environment hook.
-
-The examples below show how to provide passwords for single and multiple registries. Note how the `password-env` field refers to the name of the environment var that has the password in it.
-
-## Example: Login to docker hub (or a single server)
-
-```bash
-# environment or pre-command hook
 export DOCKER_LOGIN_PASSWORD=mysecretpassword
 ```
 
