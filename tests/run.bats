@@ -4,17 +4,45 @@ load '/usr/local/lib/bats/load.bash'
 
 # export DOCKER_STUB_DEBUG=/dev/tty
 
-@test "Login to single registry" {
+@test "Login to to dockerhub" {
   export BUILDKITE_PLUGIN_DOCKER_LOGIN_USERNAME="blah"
   export DOCKER_LOGIN_PASSWORD="llamas"
 
   stub docker \
-    "login --username blah --password-stdin : echo logging in to docker hub"
+    "login --username blah --password-stdin : echo logging in to docker hub" \
+    "logout hub.docker.com : echo logging out of docker hub"
 
   run $PWD/hooks/pre-command
 
   assert_success
   assert_output --partial "logging in to docker hub"
+
+  run $PWD/hooks/post-command
+
+  assert_success
+  assert_output --partial "logging out of docker hub"
+
+  unstub docker
+}
+
+@test "Login to to single registry" {
+  export BUILDKITE_PLUGIN_DOCKER_LOGIN_USERNAME="blah"
+  export BUILDKITE_PLUGIN_DOCKER_LOGIN_SERVER="my.registry.blah"
+  export DOCKER_LOGIN_PASSWORD="llamas"
+
+  stub docker \
+    "login --username blah --password-stdin my.registry.blah : echo logging in to my.registry.blah" \
+    "logout my.registry.blah : echo logging out of my.registry.blah"
+
+  run $PWD/hooks/pre-command
+
+  assert_success
+  assert_output --partial "logging in to my.registry.blah"
+
+  run $PWD/hooks/post-command
+
+  assert_success
+  assert_output --partial "logging out of my.registry.blah"
 
   unstub docker
 }
@@ -53,6 +81,18 @@ load '/usr/local/lib/bats/load.bash'
   assert_success
   assert_output --partial "logging in to my.registry.blah"
   assert_output --partial "logging in to docker hub"
+
+  unstub docker
+
+  stub docker \
+    "logout my.registry.blah : echo logging out of my.registry.blah" \
+    "logout hub.docker.com : echo logging out of docker hub"
+
+  run $PWD/hooks/post-command
+
+  assert_success
+  assert_output --partial "logging out of my.registry.blah"
+  assert_output --partial "logging out of docker hub"
 
   unstub docker
 }

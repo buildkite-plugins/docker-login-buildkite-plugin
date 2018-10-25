@@ -1,0 +1,20 @@
+#!/bin/bash
+set -eu -o pipefail
+
+DIR="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
+
+# shellcheck source=lib/shared.bash
+. "$DIR/../lib/shared.bash"
+
+prefixes=()
+while IFS='=' read -r prefix _ ; do
+  prefixes+=("$prefix")
+done < <(plugin_var_prefixes)
+
+for prefix in "${prefixes[@]}" ; do
+  server_var="${prefix}_SERVER"
+  server="${!server_var:-hub.docker.com}"
+
+  echo "~~~ :docker: Logging out of docker registry ${!server_var:-hub.docker.com}"
+  docker logout "${server}"
+done

@@ -1,17 +1,17 @@
 #!/bin/bash
-
 set -eu -o pipefail
 
-function plugin_var_prefixes() {
-  while IFS='=' read -r name _ ; do
-    if [[ $name =~ ^(BUILDKITE_PLUGIN_DOCKER_LOGIN_[0-9]+) || $name =~ ^(BUILDKITE_PLUGIN_DOCKER_LOGIN)_[^0-9] ]] ; then
-      echo "${BASH_REMATCH[1]}"
-    fi
-  done < <(env) | sort | uniq
-}
+DIR="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
 
-# enumerate the list of servers to login
-plugin_var_prefixes | while IFS='=' read -r prefix _ ; do
+# shellcheck source=lib/shared.bash
+. "$DIR/../lib/shared.bash"
+
+prefixes=()
+while IFS='=' read -r prefix _ ; do
+  prefixes+=("$prefix")
+done < <(plugin_var_prefixes)
+
+for prefix in "${prefixes[@]}" ; do
   username_var="${prefix}_USERNAME"
   password_legacy="${prefix}_PASSWORD"
   password_env_var="${prefix}_PASSWORD_ENV"
