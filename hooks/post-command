@@ -3,7 +3,7 @@ set -eu -o pipefail
 
 DIR="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
 
-# shellcheck disable=SC1091
+# shellcheck source=../lib/shared.bash disable=SC1091
 . "$DIR/../lib/shared.bash"
 
 prefixes=()
