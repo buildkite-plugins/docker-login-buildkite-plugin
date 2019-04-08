@@ -61,6 +61,14 @@ The environment variable that the password is stored in
 
 Defaults to `DOCKER_LOGIN_PASSWORD`.
 
+## Developing
+
+To run the tests:
+
+```sh
+docker-compose run --rm tests
+```
+
 ## License
 
 MIT (see [LICENSE](LICENSE))
