@@ -40,6 +40,7 @@ steps:
           - server: my.private.registry
             username: myuser
             password-env: DOCKER_LOGIN_MY_PRIVATE_REGISTRY
+      - docker-login#v2.0.1:
           - server: another.private.registry
             username: myuser
             password-env: DOCKER_LOGIN_ANOTHER_REGISTRY
