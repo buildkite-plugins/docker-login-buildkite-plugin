@@ -1,4 +1,4 @@
-# Docker Login Buildkite Plugin
+# Docker Login Buildkite Plugin [![Build status](https://badge.buildkite.com/26275954e05437ec7380e553bb83a515d70be2a0abf8f08815.svg?branch=master)](https://buildkite.com/buildkite/plugins-docker-login)
 
 A [Buildkite plugin](https://buildkite.com/docs/agent/v3/plugins) to login to docker registries.
 
