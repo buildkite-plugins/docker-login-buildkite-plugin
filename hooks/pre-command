@@ -10,6 +10,10 @@ function plugin_var_prefixes() {
   done < <(env) | sort | uniq
 }
 
+export DOCKER_CONFIG="./.dockerlogin.$$/"
+mkdir -p "$DOCKER_CONFIG"
+echo "{}" > "$DOCKER_CONFIG/config.json"
+
 # enumerate the list of servers to login
 plugin_var_prefixes | while IFS='=' read -r prefix _ ; do
   username_var="${prefix}_USERNAME"

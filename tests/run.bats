@@ -56,3 +56,14 @@ load '/usr/local/lib/bats/load.bash'
 
   unstub docker
 }
+
+@test "Cleans up the docker login cache" {
+  mkdir -p 'tests/tmp/.docker-login'
+
+  export DOCKER_CONFIG='tests/tmp/.docker-login'
+
+  run $PWD/hooks/post-command
+
+  assert_success
+  assert [ ! -e 'tests/tmp/.docker-login' ]
+}
