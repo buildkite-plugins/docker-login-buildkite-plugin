@@ -10,5 +10,7 @@ configuration:
       type: string
     server:
       type: string
+    password-env:
+      type: string
   required:
     - username
