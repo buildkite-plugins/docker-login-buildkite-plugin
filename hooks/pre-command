@@ -2,41 +2,21 @@
 
 set -eu -o pipefail
 
-function plugin_var_prefixes() {
-  while IFS='=' read -r name _ ; do
-    if [[ $name =~ ^(BUILDKITE_PLUGIN_DOCKER_LOGIN_[0-9]+) || $name =~ ^(BUILDKITE_PLUGIN_DOCKER_LOGIN)_[^0-9] ]] ; then
-      echo "${BASH_REMATCH[1]}"
-    fi
-  done < <(env) | sort | uniq
-}
+password_var="${BUILDKITE_PLUGIN_DOCKER_LOGIN_PASSWORD_ENV:-DOCKER_LOGIN_PASSWORD}"
 
-# enumerate the list of servers to login
-plugin_var_prefixes | while IFS='=' read -r prefix _ ; do
-  username_var="${prefix}_USERNAME"
-  password_legacy="${prefix}_PASSWORD"
-  password_env_var="${prefix}_PASSWORD_ENV"
-  password_var="${!password_env_var:-DOCKER_LOGIN_PASSWORD}"
-  server_var="${prefix}_SERVER"
+if [[ -z "${!password_var:-}" ]] ; then
+  echo "+++ 🚨 No docker-login password found in \$${password_var}"
+  exit 1
+fi
 
-  if [[ -n "${!password_legacy:-}" ]] ; then
-    echo "+++ :warn: The password property of the docker-login plugin has been deprecated, use password-env instead"
-    password_var="$password_legacy"
-  fi
+login_args=(
+  "--username" "${BUILDKITE_PLUGIN_DOCKER_LOGIN_USERNAME}"
+  "--password-stdin"
+)
 
-  if [[ -z "${!password_var:-}" ]] ; then
-    echo "+++ 🚨 No docker-login password found in \$${password_var}"
-    exit 1
-  fi
+if [[ -n "${BUILDKITE_PLUGIN_DOCKER_LOGIN_SERVER:-}" ]] ; then
+  login_args+=("${BUILDKITE_PLUGIN_DOCKER_LOGIN_SERVER}")
+fi
 
-  login_args=(
-    "--username" "${!username_var:-}"
-    "--password-stdin"
-  )
-
-  if [[ -n "${!server_var:-}" ]] ; then
-    login_args+=("${!server_var:-}")
-  fi
-
-  echo "~~~ :docker: Logging into docker registry ${!server_var:-hub.docker.com}"
-  docker login "${login_args[@]}" <<< "${!password_var:-}"
-done
+echo "~~~ :docker: Logging into docker registry ${BUILDKITE_PLUGIN_DOCKER_LOGIN_SERVER:-}"
+docker login "${login_args[@]}" <<< "${!password_var:-}"
