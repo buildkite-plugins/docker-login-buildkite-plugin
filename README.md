@@ -6,6 +6,12 @@ A [Buildkite plugin](https://buildkite.com/docs/agent/v3/plugins) to login to do
 
 To avoid leaking your docker password to buildkite.com or anyone with access to build logs, you need to avoid including it in pipeline.yml. This means it needs to be set specifically with an environment variable in an [Agent hook](https://buildkite.com/docs/agent/hooks), or made available from a previous plugin defined on the same step.
 
+### Securing your password between Buildkite Jobs
+
+The Elastic CI Stack for AWS automatically creates a [per-job `DOCKER_CONFIG` directory](https://github.com/buildkite/elastic-ci-stack-for-aws/pull/756)
+which is cleaned up after the job. If you are using this plug-in with another agent orchestration
+tool, consider whether you need a per-job `DOCKER_CONFIG` too.
+
 ## Example
 
 ```bash
