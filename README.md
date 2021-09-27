@@ -44,6 +44,10 @@ The environment variable that the password is stored in.
 
 Defaults to `DOCKER_LOGIN_PASSWORD`.
 
+### `retries` (optional)
+
+Retries login after a delay N times. Defaults to 0.
+
 ## License
 
 MIT (see [LICENSE](LICENSE))
