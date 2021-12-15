@@ -12,5 +12,8 @@ configuration:
       type: string
     password-env:
       type: string
+    retries:
+      type: number
+      default: 0
   required:
     - username
