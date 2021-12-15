@@ -48,6 +48,10 @@ Defaults to `DOCKER_LOGIN_PASSWORD`.
 
 Retries login after a delay N times. Defaults to 0.
 
+## Windows Issues
+
+This plugin requires git-bash, not the Windows built-in bash.exe, so you'll need to set your system PATH to have git-bash bin directory first, normallly `C:\Program Files\git\bin`.
+
 ## License
 
 MIT (see [LICENSE](LICENSE))
