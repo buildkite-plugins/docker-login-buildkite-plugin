@@ -27,7 +27,7 @@ function retry() {
   local stdin_value
 
   if [[ "$1" == "--with-stdin" ]]; then
-    read -sr stdin_value
+    stdin_value=$(cat)
     shift
   fi
 
