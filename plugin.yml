@@ -1,19 +1,25 @@
 name: Docker Login
 description: Login to Docker registries in your build steps
-author: https://github.com/lox
+author: https://github.com/buildkite
 requirements:
   - bash
   - docker
 configuration:
   properties:
-    username:
-      type: string
-    server:
-      type: string
+    disable-logout:
+      type: boolean
+    isolate-config:
+      type: boolean
+    keep-config-file:
+      type: boolean
     password-env:
       type: string
     retries:
       type: number
       default: 0
+    server:
+      type: string
+    username:
+      type: string
   required:
     - username
