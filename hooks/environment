@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -eu -o pipefail
+
+# a clean docker config for each job, for improved isolation
+if [ "${BUILDKITE_PLUGIN_DOCKER_LOGIN_ISOLATE_CONFIG:-true}" = "true" ]; then
+  BUILDKITE_DOCKER_LOGIN_TEMP_CONFIG=$(mktemp -d)
+  export BUILDKITE_DOCKER_LOGIN_TEMP_CONFIG
+  export DOCKER_CONFIG="$BUILDKITE_DOCKER_LOGIN_TEMP_CONFIG"
+fi
