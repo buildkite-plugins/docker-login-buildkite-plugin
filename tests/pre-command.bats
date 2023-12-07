@@ -12,7 +12,7 @@ setup() {
 @test "Missing required parameter fails" {
   unset BUILDKITE_PLUGIN_DOCKER_LOGIN_USERNAME
 
-  run $PWD/hooks/pre-command
+  run "$PWD/hooks/pre-command"
 
   assert_failure
 }
