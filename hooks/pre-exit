@@ -4,12 +4,12 @@ set -eu -o pipefail
 
 logout_args=(logout)
 
-if [ -n "${BUILDKITE_PLUGIN_DOCKER_LOGIN_SERVER}" ]; then
+if [ -n "${BUILDKITE_PLUGIN_DOCKER_LOGIN_SERVER:-}" ]; then
     logout_args+=("${BUILDKITE_PLUGIN_DOCKER_LOGIN_SERVER}")
 fi
 
-if [ "${BUILDKITE_PLUGIN_DOCKER_LOGIN_DISABLE_LOGOUT:-false}" = "true" ]; then
-    docker --config "${!CONF_FILE_ENV}" "${logout_args[@]}"
+if [ "${BUILDKITE_PLUGIN_DOCKER_LOGIN_DISABLE_LOGOUT:-false}" = "false" ]; then
+    docker "${logout_args[@]}"
 fi
 
 if [ "${BUILDKITE_PLUGIN_DOCKER_LOGIN_ISOLATE_CONFIG:-true}" = "true" ] &&
