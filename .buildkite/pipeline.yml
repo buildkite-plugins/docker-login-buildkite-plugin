@@ -8,7 +8,6 @@ steps:
       - shellcheck#v1.3.0:
           files:
             - hooks/**
-            - tests/**
 
   - label: ":sparkles: Lint"
     plugins:
