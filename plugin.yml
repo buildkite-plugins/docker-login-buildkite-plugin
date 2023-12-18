@@ -10,8 +10,6 @@ configuration:
       type: boolean
     isolate-config:
       type: boolean
-    keep-config-file:
-      type: boolean
     password-env:
       type: string
     retries:
