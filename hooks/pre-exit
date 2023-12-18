@@ -5,14 +5,18 @@ set -eu -o pipefail
 logout_args=(logout)
 
 if [ -n "${BUILDKITE_PLUGIN_DOCKER_LOGIN_SERVER:-}" ]; then
-    logout_args+=("${BUILDKITE_PLUGIN_DOCKER_LOGIN_SERVER}")
+  logout_args+=("${BUILDKITE_PLUGIN_DOCKER_LOGIN_SERVER}")
 fi
 
 if [ "${BUILDKITE_PLUGIN_DOCKER_LOGIN_DISABLE_LOGOUT:-false}" = "false" ]; then
-    docker "${logout_args[@]}"
+  docker "${logout_args[@]}"
+elif [ "${BUILDKITE_PLUGIN_DOCKER_LOGIN_ISOLATE_CONFIG:-true}" = "true" ]; then
+  echo 'Note: despite not logging out, temporary docker credential file should be removed'
 fi
 
-if [ "${BUILDKITE_PLUGIN_DOCKER_LOGIN_ISOLATE_CONFIG:-true}" = "true" ] &&
-   [ -d "${BUILDKITE_DOCKER_LOGIN_TEMP_CONFIG}" ] ; then
-    rm -rf "${BUILDKITE_DOCKER_LOGIN_TEMP_CONFIG}"
+if [ "${BUILDKITE_PLUGIN_DOCKER_LOGIN_ISOLATE_CONFIG:-true}" = "true" ] && \
+   [ -d "${BUILDKITE_DOCKER_LOGIN_TEMP_CONFIG}" ]; then
+  rm -rf "${BUILDKITE_DOCKER_LOGIN_TEMP_CONFIG}"
+elif [ "${BUILDKITE_PLUGIN_DOCKER_LOGIN_DISABLE_LOGOUT:-false}" = "true" ]; then
+    echo 'WARNING: leaving docker configuration file with credentials around'
 fi

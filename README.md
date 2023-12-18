@@ -42,7 +42,7 @@ The username to send to the docker registry.
 
 Set to `true` if you don't want the plugin to execute a `docker logout` when the step is finished.
 
-Note that doing so may be a security risk allowing interaction with a private repository to any script or person with access to the agent if the local docker daemon saves credentials in a local unencrypted store they have access to (as is the default behaviour).
+Note that doing so **may be a security risk** allowing interaction with a private repository to any script or person with access to the agent if the local docker daemon saves credentials in a local unencrypted store they have access to (as is the default behaviour). If `isolate-config` is set to `true` as well, this would leave temporary files with docker credentials around after the step is finished (and a warning will be printed).
 
 #### `isolate-config` (boolean, insecure)
 
