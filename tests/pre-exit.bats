@@ -54,18 +54,31 @@ setup () {
     unstub rm
 }
 
-@test "Can prevent from file to be removed" {
+@test "When disable logout is turned on, file is not removed" {
     mkdir "${BUILDKITE_DOCKER_LOGIN_TEMP_CONFIG}"
-    export BUILDKITE_PLUGIN_DOCKER_LOGIN_ISOLATE_CONFIG='false'
-    
-    stub docker \
-      "echo got \$# args \$@"
+    export BUILDKITE_PLUGIN_DOCKER_LOGIN_DISABLE_LOGOUT='true'
 
     run "$PWD/hooks/pre-exit"
 
     assert_success
-    assert_output --partial 'got 1 args logout'
-    refute_output --partial "removing ${BUILDKITE_DOCKER_LOGIN_TEMP_CONFIG}"
 
-    unstub docker
+    # ensure folder is removed anyways
+    ! [ -e "${BUILDKITE_DOCKER_LOGIN_TEMP_CONFIG}" ]
+    refute_output --partial 'WARNING: leaving docker configuration file with credentials around'
+    assert_output --partial 'Note: despite not logging out, temporary docker credential file should be removed'
+}
+
+@test "Can prevent from file to be removed" {
+    mkdir "${BUILDKITE_DOCKER_LOGIN_TEMP_CONFIG}"
+    export BUILDKITE_PLUGIN_DOCKER_LOGIN_ISOLATE_CONFIG='false'
+    export BUILDKITE_PLUGIN_DOCKER_LOGIN_DISABLE_LOGOUT='true'
+    
+    run "$PWD/hooks/pre-exit"
+
+    assert_success
+
+    assert_output --partial 'WARNING: leaving docker configuration file with credentials around'
+    [ -d "${BUILDKITE_DOCKER_LOGIN_TEMP_CONFIG}" ] # ensure folder still exists
+
+    refute_output --partial 'Note: despite not logging out, temporary docker credential file should be removed'
 }
