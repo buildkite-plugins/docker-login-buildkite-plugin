@@ -70,6 +70,16 @@ The server to log in to, if blank or ommitted logs into Docker Hub.
 
 This plugin requires git-bash, not the Windows built-in bash.exe, so you'll need to set your system PATH to have git-bash bin directory first, normallly `C:\Program Files\git\bin`.
 
+## Compatibility
+
+| Elastic Stack | Agent Stack K8s | Hosted (Mac) | Hosted (Linux) | Notes |
+| :-----------: | :-------------: | :----: | :----: |:---- |
+| ✅ | ⚠️ | ❌ | ✅ | *K8s stack* requires `docker in docker`<br/> Docker does not come installed on Hosted Mac|
+
+- ✅ Fully supported (all combinations of attributes have been tested to pass)
+- ⚠️ Partially supported (some combinations cause errors/issues)
+- ❌ Not supported
+
 ## License
 
 MIT (see [LICENSE](LICENSE))
