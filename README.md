@@ -50,7 +50,9 @@ Set to `false` if you don't want the plugin to create a special docker configura
 
 Note that doing so may be a security risk unless you are doing something similar outside of this plugin due to the login credentials being a shared state among all agents and jobs run by them with access to the same docker daemon. This can cause jobs to fail intermmittently or even allow access to private repositories to jobs that shouldn't have such access.
 
-It is safe to disable if you are using the [Elastic CI Stack for AWS 5.0.0 or later](https://github.com/buildkite/elastic-ci-stack-for-aws).
+On Linux Hosted Agents with Remote Docker Builders, leaving `isolate-config` enabled (the default) redirects `DOCKER_CONFIG` to an empty temporary directory and hides the remote builder which is registered under `$HOME/.docker/buildx/` during Agent startup. The result is that `docker buildx build` and `docker buildx bake` silently fall back to the local docker driver, losing the performance benefit of the remote builder. To preserve remote builder routing, either set this value to `false`, or re-register the remote builder inside the redirected config after the plugin's environment hook runs. For example, run `docker buildx use in-runner-builder` before any `docker buildx` command in your step.
+
+It is safe to disable if you are using the [Elastic CI Stack for AWS 5.0.0 or later](https://github.com/buildkite/elastic-ci-stack-for-aws) or [Hosted Agents](https://buildkite.com/docs/agent/buildkite-hosted).
 
 ### `password-env`
 
@@ -74,7 +76,7 @@ This plugin requires git-bash, not the Windows built-in bash.exe, so you'll need
 
 | Elastic Stack | Agent Stack K8s | Hosted (Mac) | Hosted (Linux) | Notes |
 | :-----------: | :-------------: | :----: | :----: |:---- |
-| ✅ | ⚠️ | ❌ | ✅ | *K8s stack* requires `docker in docker`<br/> Docker does not come installed on Hosted Mac|
+| ✅ | ⚠️ | ❌ | ⚠️ | *K8s stack* requires `docker in docker`<br/> Docker does not come installed on Hosted Mac<br/> *Hosted Linux* with Remote Docker Builders requires `isolate-config: false` or a manual builder re-registration step (see [`isolate-config`](#isolate-config-boolean-insecure)) |
 
 - ✅ Fully supported (all combinations of attributes have been tested to pass)
 - ⚠️ Partially supported (some combinations cause errors/issues)
