@@ -64,6 +64,7 @@ setup() {
 @test "Multiple retries used until command is successful" {
   export BUILDKITE_PLUGIN_DOCKER_LOGIN_RETRIES=5
 
+  stub sleep "* : true" "* : true"
   stub docker \
     "login --username blah --password-stdin : exit 1" \
     "login --username blah --password-stdin : exit 1" \
@@ -76,4 +77,5 @@ setup() {
   assert_output --partial "llamas"
 
   unstub docker
+  unstub sleep
 }
