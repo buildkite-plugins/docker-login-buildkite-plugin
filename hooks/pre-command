@@ -24,4 +24,4 @@ if [[ -n "${BUILDKITE_PLUGIN_DOCKER_LOGIN_SERVER:-}" ]] ; then
 fi
 
 echo "~~~ :docker: Logging into docker registry ${BUILDKITE_PLUGIN_DOCKER_LOGIN_SERVER:-}"
-retry "${BUILDKITE_PLUGIN_DOCKER_LOGIN_RETRIES:-0}" --with-stdin docker login "${login_args[@]}" <<< "${!password_var:-}"
+retry "${BUILDKITE_PLUGIN_DOCKER_LOGIN_RETRIES:-3}" --with-stdin docker login "${login_args[@]}" <<< "${!password_var:-}"

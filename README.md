@@ -62,7 +62,9 @@ Defaults to `DOCKER_LOGIN_PASSWORD`.
 
 ### `retries`
 
-Retries login after a delay N times. Defaults to 0 (no retries).
+Retries a failed login N times. Defaults to 3. Set to 0 to fail on the first attempt.
+
+Each retry waits a random number of seconds between zero and a ceiling that doubles per attempt (2s, 4s, 8s, ...) up to 30s. Registries rate limit by source IP, so parallel jobs sharing an egress address tend to fail at the same moment; randomising the wait stops them all retrying in lockstep and triggering the limit again. At the default of 3 retries this adds at most 14 seconds before a login is reported as failed.
 
 ### `server`
 
