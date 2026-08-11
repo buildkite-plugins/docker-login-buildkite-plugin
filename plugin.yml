@@ -14,7 +14,7 @@ configuration:
       type: string
     retries:
       type: number
-      default: 0
+      default: 3
     server:
       type: string
     username:

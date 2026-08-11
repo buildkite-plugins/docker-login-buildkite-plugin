@@ -64,6 +64,7 @@ setup() {
 @test "Multiple retries used until command is successful" {
   export BUILDKITE_PLUGIN_DOCKER_LOGIN_RETRIES=5
 
+  stub sleep "* : true" "* : true"
   stub docker \
     "login --username blah --password-stdin : exit 1" \
     "login --username blah --password-stdin : exit 1" \
@@ -74,6 +75,38 @@ setup() {
   assert_success
   assert_output --partial "logging in to docker hub"
   assert_output --partial "llamas"
+
+  unstub docker
+  unstub sleep
+}
+
+@test "Retries three times by default" {
+  stub sleep "* : true" "* : true" "* : true"
+  stub docker \
+    "login --username blah --password-stdin : exit 1" \
+    "login --username blah --password-stdin : exit 1" \
+    "login --username blah --password-stdin : exit 1" \
+    "login --username blah --password-stdin : exit 1"
+
+  run "${PWD}/hooks/pre-command"
+
+  assert_failure
+  assert_output --partial "Login failed after 4 attempts"
+
+  unstub docker
+  unstub sleep
+}
+
+@test "Retries can be disabled" {
+  export BUILDKITE_PLUGIN_DOCKER_LOGIN_RETRIES=0
+
+  stub docker \
+    "login --username blah --password-stdin : exit 1"
+
+  run "${PWD}/hooks/pre-command"
+
+  assert_failure
+  refute_output --partial "Trying again"
 
   unstub docker
 }
