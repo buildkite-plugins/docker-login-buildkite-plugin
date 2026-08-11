@@ -21,7 +21,7 @@ export MY_DOCKER_LOGIN_PASSWORD=mysecretpassword
 steps:
   - command: ./run_build.sh
     plugins:
-      - docker-login#v3.0.0:
+      - docker-login#v3.1.0:
           username: myuser
           password-env: MY_DOCKER_LOGIN_PASSWORD
 ```
